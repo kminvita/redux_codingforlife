@@ -15,11 +15,17 @@
             // reducer만들기
             // dispatch에 의해서 action이 들어오게 되면 reducer가 그 action값과 기존의 state값을 참조해서 새로운 state값을 만든다.
             function reducer(state, action){
+                console.log(state, action);
                 // 최초의 초기화 단계에서는 state의 값이 undefined이다.
                 if(state === undefined){
                     // 초기 state값/ 객체
                     return {color:'yellow'}
                 }
+                var newState;
+                if(action.type === 'CHANGE_COLOR'){
+                    newState = Object.assign({}, state, {color:'red'})
+                }
+                return newState;
             }
 
             // 스토어를 생성하면 자동적으로 state가 생성된다.
@@ -38,9 +44,7 @@
                             <div class="container" id="component_red" style="background-color:${state.color}">
                                 <h1>red</h1>
                                 <input type="button" value="fire" onclick="
-                                    document.querySelector('#component_red').style.backgroundColor='red';
-                                    document.querySelector('#component_green').style.backgroundColor='red';
-                                    document.querySelector('#component_blue').style.backgroundColor='red';
+                                   store.dispatch({type:'CHANGE_COLOR', color:'red'});
                                 ">
                             </div>
                         `;
