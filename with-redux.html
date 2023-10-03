@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.1/redux.js"></script>
+    </head>
+    <body>
+        <style>
+            .container {
+                border: 5px solid black;
+                padding: 10px;
+            }
+        </style>
+        <div id="red"></div>
+        <div id="blue"></div>
+        <div id="green"></div>
+        <script>
+            // reducer만들기
+            // dispatch에 의해서 action이 들어오게 되면 reducer가 그 action값과 기존의 state값을 참조해서 새로운 state값을 만든다.
+            function reducer(state, action){
+                console.log(state, action);
+                // 최초의 초기화 단계에서는 state의 값이 undefined이다.
+                if(state === undefined){
+                    // 초기 state값/ 객체
+                    return {color:'yellow'}
+                }
+                var newState;
+                if(action.type === 'CHANGE_COLOR'){
+                    newState = Object.assign({}, state, {color:action.color})
+                }
+                // 굳이 console.log를 코드 여기저기 입력할 필요없이 아래와 같이 작성하면 버튼을 클릭할때마다 액션의타입, 액션, 이전의상태, 새로운상태들을 확인할 수 있다.
+                console.log(action.type, action, state, newState);
+                return newState;
+            }
+
+            // 스토어를 생성하면 자동적으로 state가 생성된다.
+            // store가 전역변수에 저장된다.
+            // 즉 애플리케이션 어디에서든지 참조할수있는 값이므로 어디서든 실행할 수 있는 코드가 된다.
+            var store = Redux.createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
+            // 초기 state가 잘 불러왔는지 콘솔로그로 확인
+            // {color:'yellow'}라는 객체가 개발자 도구창에 들어오고 있는것을 확인할 수 있다.
+            console.log(store.getState());
+
+            function red() {
+                // 초기값으로 설정된 state를 불러온다.
+                var state = store.getState();
+                document.querySelector('#red').innerHTML = `
+                    <div class="container" id="component_red" style="background-color:${state.color}">
+                        <h1>red</h1>
+                        <input type="button" value="fire" onclick="
+                           store.dispatch({type:'CHANGE_COLOR', color:'red'});
+                        ">
+                    </div>
+                `;
+            }
+            store.subscribe(red);
+            red();
+
+            function blue() {
+                // 초기값으로 설정된 state를 불러온다.
+                var state = store.getState();
+                document.querySelector('#blue').innerHTML = `
+                <div class="container" id="component_blue" style="background-color:${state.color}">
+                    <h1>blue</h1>
+                    <input type="button" value="fire" onclick="
+                        store.dispatch({type:'CHANGE_COLOR', color:'blue'});
+                    ">
+                </div>
+                `;
+            }
+            store.subscribe(blue);
+            blue();
+
+            function green() {
+                // 초기값으로 설정된 state를 불러온다.
+                var state = store.getState();
+                document.querySelector('#green').innerHTML = `
+                    <div class="container" id="component_green" style="background-color:${state.color}">
+                    <h1>green</h1>
+                    <input type="button" value="fire" onclick="
+                        store.dispatch({type:'CHANGE_COLOR', color:'green'});
+                    ">
+                    </div>
+                `;
+            }
+            store.subscribe(green);
+            green();
+        </script>
+    </body>
+</html>
