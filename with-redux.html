@@ -11,6 +11,8 @@
             }
         </style>
         <div id="red"></div>
+        <div id="blue"></div>
+        <div id="green"></div>
         <script>
             // reducer만들기
             // dispatch에 의해서 action이 들어오게 되면 reducer가 그 action값과 기존의 state값을 참조해서 새로운 state값을 만든다.
@@ -23,7 +25,7 @@
                 }
                 var newState;
                 if(action.type === 'CHANGE_COLOR'){
-                    newState = Object.assign({}, state, {color:'red'})
+                    newState = Object.assign({}, state, {color:action.color})
                 }
                 return newState;
             }
@@ -41,15 +43,46 @@
                 // 초기값으로 설정된 state를 불러온다.
                 var state = store.getState();
                 document.querySelector('#red').innerHTML = `
-                            <div class="container" id="component_red" style="background-color:${state.color}">
-                                <h1>red</h1>
-                                <input type="button" value="fire" onclick="
-                                   store.dispatch({type:'CHANGE_COLOR', color:'red'});
-                                ">
-                            </div>
-                        `;
+                    <div class="container" id="component_red" style="background-color:${state.color}">
+                        <h1>red</h1>
+                        <input type="button" value="fire" onclick="
+                           store.dispatch({type:'CHANGE_COLOR', color:'red'});
+                        ">
+                    </div>
+                `;
             }
+            store.subscribe(red);
             red();
+
+            function blue() {
+                // 초기값으로 설정된 state를 불러온다.
+                var state = store.getState();
+                document.querySelector('#blue').innerHTML = `
+                <div class="container" id="component_blue" style="background-color:${state.color}">
+                    <h1>blue</h1>
+                    <input type="button" value="fire" onclick="
+                        store.dispatch({type:'CHANGE_COLOR', color:'blue'});
+                    ">
+                </div>
+                `;
+            }
+            store.subscribe(blue);
+            blue();
+
+            function green() {
+                // 초기값으로 설정된 state를 불러온다.
+                var state = store.getState();
+                document.querySelector('#green').innerHTML = `
+                    <div class="container" id="component_green" style="background-color:${state.color}">
+                    <h1>green</h1>
+                    <input type="button" value="fire" onclick="
+                        store.dispatch({type:'CHANGE_COLOR', color:'green'});
+                    ">
+                    </div>
+                `;
+            }
+            store.subscribe(green);
+            green();
         </script>
     </body>
 </html>
