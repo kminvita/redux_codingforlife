@@ -27,6 +27,8 @@
                 if(action.type === 'CHANGE_COLOR'){
                     newState = Object.assign({}, state, {color:action.color})
                 }
+                // 굳이 console.log를 코드 여기저기 입력할 필요없이 아래와 같이 작성하면 버튼을 클릭할때마다 액션의타입, 액션, 이전의상태, 새로운상태들을 확인할 수 있다.
+                console.log(action.type, action, state, newState);
                 return newState;
             }
 
