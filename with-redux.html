@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.1/redux.js"
-            integrity="sha512-Olr8rkMYuxq3KpAPjYA/mAVYe7EIEP4RkhoAvD/qOrlauzE4CTvpQSg/cRX0/5Qreret4aobD0vg1xtjBqR7VA=="
-            crossorigin="anonymous" referrerpolicy="no-referrer">
-        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.1/redux.js"></script>
     </head>
     <body>
         <style>
@@ -15,9 +12,30 @@
         </style>
         <div id="red"></div>
         <script>
+            // reducer만들기
+            // dispatch에 의해서 action이 들어오게 되면 reducer가 그 action값과 기존의 state값을 참조해서 새로운 state값을 만든다.
+            function reducer(state, action){
+                // 최초의 초기화 단계에서는 state의 값이 undefined이다.
+                if(state === undefined){
+                    // 초기 state값/ 객체
+                    return {color:'yellow'}
+                }
+            }
+
+            // 스토어를 생성하면 자동적으로 state가 생성된다.
+            // store가 전역변수에 저장된다.
+            // 즉 애플리케이션 어디에서든지 참조할수있는 값이므로 어디서든 실행할 수 있는 코드가 된다.
+            var store = Redux.createStore(reducer);
+
+            // 초기 state가 잘 불러왔는지 콘솔로그로 확인
+            // {color:'yellow'}라는 객체가 개발자 도구창에 들어오고 있는것을 확인할 수 있다.
+            console.log(store.getState());
+
             function red() {
+                // 초기값으로 설정된 state를 불러온다.
+                var state = store.getState();
                 document.querySelector('#red').innerHTML = `
-                            <div class="container" id="component_red">
+                            <div class="container" id="component_red" style="background-color:${state.color}">
                                 <h1>red</h1>
                                 <input type="button" value="fire" onclick="
                                     document.querySelector('#component_red').style.backgroundColor='red';
